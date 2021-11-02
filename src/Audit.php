@@ -249,7 +249,7 @@ class Audit extends Module
         if (!empty($trackActions) && !$this->routeMatches($uniqueId, $trackActions)) {
             return false;
         }
-        if (!empty($ignoreActions) && $this->routeMatches($uniqueId $ignoreActions)) {
+        if (!empty($ignoreActions) && $this->routeMatches($uniqueId, $ignoreActions)) {
             return false;
         }
 
