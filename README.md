@@ -1,3 +1,4 @@
+### Refork from - https://github.com/bedezign/yii2-audit
 # Yii2 Audit
 
 [![Join Chat](https://img.shields.io/badge/gitter-join%20chat-blue.svg?style=flat-square)](https://gitter.im/bedezign/yii2-audit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -73,7 +74,7 @@ Each panel is optional, and you can even create your own.
 
 Getting started? Try the [Installation Guide](https://bedezign.github.io/yii2-audit/docs/installation/).  You will find further information in the [Documentation](https://bedezign.github.io/yii2-audit/docs/).
 
-For changes since the last version see the [Changelog](https://github.com/bedezign/yii2-audit/blob/master/CHANGELOG.md).
+For changes since the last version see the [Changelog](https://github.com/mazfreelance/yii2-audit/blob/master/CHANGELOG.md).
 
 ## Screenshots
 
