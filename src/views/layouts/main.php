@@ -37,6 +37,7 @@ WebHelper::bootstrap('NavBar', 'begin', [
 
 $items = [
     ['label' => Yii::t('audit', 'Entries'), 'url' => ['entry/index']],
+    ['label' => Yii::t('audit', 'Access Log'), 'url' => ['access-log/index']],
 ];
 foreach (Audit::getInstance()->panels as $panel) {
     /** @var Panel $panel */

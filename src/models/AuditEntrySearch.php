@@ -39,7 +39,40 @@ class AuditEntrySearch extends AuditEntry
      */
     public function search($params)
     {
-        $query = AuditEntry::find();
+        $query = AuditEntry::find()->where(['NOT LIKE', 'route', 'site/login']);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort'  => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC
+                ]
+            ]
+        ]);
+
+        // load the search form data and validate
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+
+        // adjust the query by adding the filters
+        $query->andFilterWhere(['id' => $this->id]);
+        $this->filterUserId($this->user_id, $query);
+        $query->andFilterWhere(['ip' => $this->ip]);
+        $query->andFilterWhere(['route' => $this->route]);
+        $query->andFilterWhere(['request_method' => $this->request_method]);
+        $query->andFilterWhere(['ajax' => $this->ajax]);
+        $query->andFilterWhere(['duration' => $this->duration]);
+        $query->andFilterWhere(['memory_max' => $this->memory_max]);
+        $query->andFilterWhere(['like', 'created', $this->created]);
+        $query->with(['linkedErrors', 'javascripts']);
+
+        return $dataProvider;
+    }
+
+    public function searchAccessLog($params)
+    {
+        $query = AuditEntry::find()->where(['LIKE', 'route', 'site/login']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -78,6 +111,7 @@ class AuditEntrySearch extends AuditEntry
         $routes = AuditEntry::getDb()->cache(function () {
             return AuditEntry::find()->distinct(true)
                 ->select('route')->where(['is not', 'route', null])
+                ->where(['NOT LIKE', 'route', 'site/login'])
                 ->groupBy('route')->orderBy('route ASC')->column();
         }, 30);
         return array_combine($routes, $routes);

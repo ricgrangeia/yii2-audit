@@ -1,5 +1,10 @@
 ### Refork from - https://github.com/bedezign/yii2-audit
 # Yii2 Audit
+## Documentation
+
+Getting started? Try the [Installation Guide](https://bedezign.github.io/yii2-audit/docs/installation/).  You will find further information in the [Documentation](https://bedezign.github.io/yii2-audit/docs/).
+
+For changes since the last version see the [Changelog](https://github.com/mazfreelance/yii2-audit/blob/master/CHANGELOG.md).
 
 [![Join Chat](https://img.shields.io/badge/gitter-join%20chat-blue.svg?style=flat-square)](https://gitter.im/bedezign/yii2-audit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Latest Version](https://img.shields.io/github/tag/bedezign/yii2-audit.svg?style=flat-square&label=release)](https://github.com/bedezign/yii2-audit/tags)
@@ -69,12 +74,6 @@ Each panel is optional, and you can even create your own.
 * `ExtraDataPanel` - Extra data that you want to store. [more info](https://bedezign.github.io/yii2-audit/docs/extra-data-panel/)
 * `CurlPanel` - Track your applications cURL requests (including replies, log and headers) [more info](https://bedezign.github.io/yii2-audit/docs/curl-panel/)
 * `YourOwnPanel` - Create your own panel to capture any data you want. [more info](https://bedezign.github.io/yii2-audit/docs/custom-views-panel/)
-
-## Documentation
-
-Getting started? Try the [Installation Guide](https://bedezign.github.io/yii2-audit/docs/installation/).  You will find further information in the [Documentation](https://bedezign.github.io/yii2-audit/docs/).
-
-For changes since the last version see the [Changelog](https://github.com/mazfreelance/yii2-audit/blob/master/CHANGELOG.md).
 
 ## Screenshots
 
