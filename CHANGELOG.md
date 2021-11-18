@@ -2,7 +2,8 @@
 
 ## 1.1.6 November 18, 2021
 * Feat : make access log
-## 1.1.5 November 2, 2021* Bug : fix
+## 1.1.5 November 2, 2021
+* Bug : fix
 ## 1.1.4 November 2, 2021
 * Bug [#278](https://github.com/bedezign/yii2-audit/issues/278): Yii2's namespaced migrations functionality
 * Enh [#284](https://github.com/bedezign/yii2-audit/pull/284): pt-BR translation
