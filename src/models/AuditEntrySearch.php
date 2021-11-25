@@ -13,6 +13,7 @@ use yii\db\ActiveQuery;
  */
 class AuditEntrySearch extends AuditEntry
 {
+    public $start_date, $end_date;
     /**
      * @return array
      */
@@ -20,7 +21,9 @@ class AuditEntrySearch extends AuditEntry
     {
         // only fields in rules() are searchable
         return [
-            [['id', 'user_id', 'ip', 'created', 'duration', 'memory_max', 'route', 'request_method', 'ajax'], 'safe'],
+            [['id', 'user_id', 'ip', 'created', 'duration', 'memory_max', 'route', 'request_method', 'ajax', 'start_date', 'end_date'], 'safe'],
+            ['start_date', 'validateDate'],
+            ['end_date', 'validateDate']
         ];
     }
 
@@ -39,7 +42,9 @@ class AuditEntrySearch extends AuditEntry
      */
     public function search($params)
     {
-        $query = AuditEntry::find()->where(['NOT LIKE', 'route', 'site/login']);
+        $query = AuditEntry::find()
+                ->where(['NOT LIKE', 'route', 'site/login'])
+                ->andWhere(['NOT LIKE', 'request_method', 'CLI']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -103,6 +108,15 @@ class AuditEntrySearch extends AuditEntry
         return $dataProvider;
     }
 
+    public function validateDate($attribute)
+    {
+        $dateTime = DateTime::createFromFormat('Y/m/d', $this->$attribute);
+        $errors = DateTime::getLastErrors();
+        if (!empty($errors['warning_count'])) {
+            $this->addError($attribute, 'Invalid date');
+        }
+    }
+
     /**
      * @return array
      */
@@ -125,6 +139,7 @@ class AuditEntrySearch extends AuditEntry
         $methods = AuditEntry::getDb()->cache(function () {
             return AuditEntry::find()->distinct(true)
                 ->select('request_method')->where(['is not', 'request_method', null])
+                ->where(['NOT LIKE', 'request_method', 'CLI'])
                 ->groupBy('request_method')->orderBy('request_method ASC')->column();
         }, 240);
         return array_combine($methods, $methods);

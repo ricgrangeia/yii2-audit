@@ -2,7 +2,7 @@
 
 namespace bedezign\yii2\audit\models;
 
-
+use bedezign\yii2\audit\Audit;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -12,6 +12,7 @@ use yii\data\ActiveDataProvider;
  */
 class AuditTrailSearch extends AuditTrail
 {
+    public $start_date, $end_date;
     /**
      * @return array
      */
@@ -19,7 +20,7 @@ class AuditTrailSearch extends AuditTrail
     {
         // Note: The model is used by both the entry and the trail index pages, hence the separate use of `id` and `entry_id`
         return [
-            [['id', 'user_id', 'entry_id', 'action', 'model', 'model_id', 'field', 'created'], 'safe'],
+            [['id', 'user_id', 'entry_id', 'action', 'model', 'model_id', 'field', 'created', 'start_date', 'end_date'], 'safe'],
         ];
     }
 
@@ -56,13 +57,14 @@ class AuditTrailSearch extends AuditTrail
         }
 
         // adjust the query by adding the filters
-        $userId = $this->user_id;
-        if (strlen($this->user_id))
-            $userId = intval($this->user_id) ?: 0;
+        // $userId = $this->user_id;
+        // if (strlen($this->user_id))
+        //     $userId = intval($this->user_id) ?: 0;
 
         $query->andFilterWhere(['id' => $this->id]);
+        $this->filterUserId($this->user_id, $query);
         $query->andFilterWhere(['entry_id' => $this->entry_id]);
-        $query->andFilterWhere(['user_id' => $userId]);
+        // $query->andFilterWhere(['user_id' => $userId]);
         $query->andFilterWhere(['action' => $this->action]);
         $query->andFilterWhere(['like', 'model', $this->model]);
         $query->andFilterWhere(['model_id' => $this->model_id]);
@@ -86,5 +88,21 @@ class AuditTrailSearch extends AuditTrail
             'action',
             'action'
         );
+    }
+
+    /**
+     * @param $userId
+     * @param ActiveQuery $query
+     */
+    protected function filterUserId($userId, $query)
+    {
+        if (strlen($userId)) {
+            if (!is_numeric($userId) && $callback = Audit::getInstance()->userFilterCallback) {
+                $userId = call_user_func($callback, $userId);
+            } else {
+                $userId = intval($userId) ?: 0;
+            }
+            $query->andWhere(['user_id' => $userId]);
+        }
     }
 }

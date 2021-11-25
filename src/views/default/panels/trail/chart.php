@@ -6,45 +6,56 @@ use bedezign\yii2\audit\panels\TrailPanel;
 use dosamigos\chartjs\ChartJs;
 
 //initialise defaults (0 entries) for each day
+// dd($chartData);
 $defaults = [];
-$startDate = strtotime('-6 days');
-foreach (range(-6, 0) as $day) {
-    $defaults[date('D: Y-m-d', strtotime($day . 'days'))] = 0;
+if(!$start && !$end) {
+    $startDate = date('Y-m-d 00:00:00', strtotime('-6 days'));
+    $endDate =  date('Y-m-d 23:59:59');
+    foreach (range(-6, 0) as $day) {
+        $defaults[date('D: Y-m-d', strtotime($day . 'days'))] = 0;
+    }
+} else {
+    $startDate = date('Y-m-d 00:00:00', strtotime($start));
+    $endDate = date('Y-m-d 23:59:59', strtotime($end));
+    $days = round(((strtotime($endDate) - strtotime($startDate))/ (60 * 60 * 24))-1);
+    foreach (range(0, $days) as $day) {
+        $defaults[date('D: Y-m-d', strtotime($startDate.'+' .$day . 'days'))] = 0;
+    }
 }
 
 $results = AuditTrail::find()
     ->select(["COUNT(DISTINCT id) as count", "created AS day"])
     ->where(['between', 'created',
-        date('Y-m-d 00:00:00', $startDate),
-        date('Y-m-d 23:59:59')])
+        $startDate,
+        $endDate])
     ->groupBy("created")->indexBy('day')->column();
 
 // format dates properly
-$formattedData = [];
 foreach ($results as $date => $count) {
     $date = date('D: Y-m-d', strtotime($date));
-    $formattedData[$date] = $count;
+    $defaults[$date] += $count;
 }
-$results = $formattedData;
 
-// replace defaults with data from db where available
-$results = array_merge($defaults, $results);
-
+// return $defaults;
+// dd($defaults);
 echo ChartJs::widget([
     'type' => 'bar',
+    'options' => [
+        'height' => '400',
+    ],
     'clientOptions' => [
         'legend' => ['display' => false],
         'tooltips' => ['enabled' => false],
     ],
     'data' => [
-        'labels' => array_keys($chartData),
+        'labels' => array_keys($defaults),
         'datasets' => [
             [
-                'fillColor' => 'rgba(151,187,205,0.5)',
-                'strokeColor' => 'rgba(151,187,205,1)',
-                'pointColor' => 'rgba(151,187,205,1)',
+                'fillColor' => 'rgba(255, 99, 71, 0.8)',
+                'strokeColor' => 'rgba(255, 99, 71, 0.8)',
+                'pointColor' => 'rgba(255, 99, 71, 0.8)',
                 'pointStrokeColor' => '#fff',
-                'data' => array_values($chartData),
+                'data' => array_values($defaults),
             ],
         ],
     ]

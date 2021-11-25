@@ -9,7 +9,7 @@ use bedezign\yii2\audit\models\AuditEntrySearch;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('audit', 'Entries');
+$this->title = Yii::t('audit', 'Activity Log');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('audit', 'Audit'), 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
