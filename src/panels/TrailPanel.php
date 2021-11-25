@@ -80,11 +80,17 @@ class TrailPanel extends Panel
     /**
      * @inheritdoc
      */
-    public function getChart()
+    public function getChart($request = null)
     {
+        $start = $end = null;
+        if($request){
+            $start = Yii::$app->request->queryParams['AuditTrailSearch']['start_date'];
+            $end = Yii::$app->request->queryParams['AuditTrailSearch']['end_date'];
+        }
+        
         return \Yii::$app->view->render('panels/trail/chart', [
-            'panel' => $this,
-            'chartData' => $this->getChartData()
+            'start' => $start,
+            'end' => $end, 
         ]);
     }
 

@@ -10,7 +10,7 @@ use bedezign\yii2\audit\models\AuditTrailSearch;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('audit', 'Trails');
+$this->title = Yii::t('audit', 'Database Log');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('audit', 'Audit'), 'url' => ['default/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -33,8 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
             ],
             [
+                
                 'attribute' => 'user_id',
-                'label' => Yii::t('audit', 'User ID'),
+                'label' => Yii::t('audit', 'User'),
                 'class' => 'yii\grid\DataColumn',
                 'value' => function ($data) {
                     return Audit::getInstance()->getUserIdentifier($data->user_id);

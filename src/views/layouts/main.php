@@ -36,8 +36,8 @@ WebHelper::bootstrap('NavBar', 'begin', [
 ]);
 
 $items = [
-    ['label' => Yii::t('audit', 'Entries'), 'url' => ['entry/index']],
     ['label' => Yii::t('audit', 'Access Log'), 'url' => ['access-log/index']],
+    ['label' => Yii::t('audit', 'Activity Log'), 'url' => ['entry/index']],
 ];
 foreach (Audit::getInstance()->panels as $panel) {
     /** @var Panel $panel */
@@ -45,7 +45,11 @@ foreach (Audit::getInstance()->panels as $panel) {
     if (!$indexUrl) {
         continue;
     }
-    $items[] = ['label' => $panel->getName(), 'url' => $indexUrl];
+    $label = $panel->getName();
+    if($panel->getName() == 'Trails'){
+        $label = Yii::t('audit', 'Database Log');
+    }
+    $items[] = ['label' => $label, 'url' => $indexUrl];
 }
 
 echo WebHelper::bootstrap('Nav', 'widget', [
@@ -54,7 +58,7 @@ echo WebHelper::bootstrap('Nav', 'widget', [
 ]);
 echo WebHelper::bootstrap('Nav', 'widget', [
     'items' => [
-        ['label' => Yii::$app->name, 'url' => Yii::$app->getHomeUrl()],
+        ['label' => 'Admin Panel', 'url' => Yii::$app->getHomeUrl()],
     ],
     'options' => ['class' => 'navbar-nav navbar-right'],
 ]);

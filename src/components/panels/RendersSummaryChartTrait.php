@@ -31,21 +31,31 @@ trait RendersSummaryChartTrait
      *
      * @return array
      */
-    protected function getChartData()
+    protected function getChartData($start = null, $end = null)
     {
         //initialise defaults (0 entries) for each day
         $defaults = [];
-        $startDate = strtotime('-6 days');
-        foreach (range(-6, 0) as $day) {
-            $defaults[date('D: Y-m-d', strtotime($day . 'days'))] = 0;
+        if(!$start && !$end) {
+            $startDate = date('Y-m-d 00:00:00', strtotime('-6 days'));
+            $endDate =  date('Y-m-d 23:59:59');
+            foreach (range(-6, 0) as $day) {
+                $defaults[date('D: Y-m-d', strtotime($day . 'days'))] = 0;
+            }
+        } else {
+            $startDate = date('Y-m-d 00:00:00', strtotime($start));
+            $endDate = date('Y-m-d 23:59:59', strtotime($end));
+            $days = round(((strtotime($endDate) - strtotime($startDate))/ (60 * 60 * 24))-1);
+            foreach (range(0, $days) as $day) {
+                $defaults[date('D: Y-m-d', strtotime($startDate.'+' .$day . 'days'))] = 0;
+            }
         }
 
         $panelModel = $this->getChartModel();
         $results = $panelModel::find()
             ->select(["COUNT(DISTINCT id) as count", "created AS day"])
             ->where(['between', 'created',
-                date('Y-m-d 00:00:00', $startDate),
-                date('Y-m-d 23:59:59')])
+                $startDate,
+                $endDate])
             ->groupBy("created")->indexBy('day')->column();
 
         // replace defaults with data from db where available
