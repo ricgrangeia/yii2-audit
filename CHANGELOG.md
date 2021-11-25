@@ -1,5 +1,7 @@
 # Changelog
 
+### 1.1.7 November 25, 2021
+* Feat [#1](https://github.com/mazfreelance/yii2-audit/pull/1): add date range filter on graft
 ## 1.1.6 November 18, 2021
 * Feat : make access log
 ## 1.1.5 November 2, 2021
