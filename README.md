@@ -7,7 +7,7 @@ Getting started? Try the [Installation Guide](https://bedezign.github.io/yii2-au
 For changes since the last version see the [Changelog](https://github.com/mazfreelance/yii2-audit/blob/master/CHANGELOG.md).
 
 [![Join Chat](https://img.shields.io/badge/gitter-join%20chat-blue.svg?style=flat-square)](https://gitter.im/bedezign/yii2-audit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Latest Version](https://img.shields.io/github/tag/bedezign/yii2-audit.svg?style=flat-square&label=release)](https://github.com/bedezign/yii2-audit/tags)
+[![Latest Version](https://img.shields.io/github/v/tag/mazfreelance/yii2-audit.svg?label=release&sort=semver&style=flat-square)](https://github.com/mazfreelance/yii2-audit/releases/tag)
 [![Software License](https://img.shields.io/badge/license-BSD-brightgreen.svg?style=flat-square)](https://github.com/bedezign/yii2-audit/blob/master/LICENSE.md)
 [![Build Status](https://img.shields.io/travis/bedezign/yii2-audit/master.svg?style=flat-square)](https://travis-ci.org/bedezign/yii2-audit)
 [![HHVM](https://img.shields.io/hhvm/bedezign/yii2-audit.svg?style=flat-square)](http://hhvm.h4cc.de/package/bedezign/yii2-audit)
